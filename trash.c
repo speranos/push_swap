@@ -24,7 +24,9 @@ int    ft_putstr(char *str)
     
 	i = 0;
     while (str[i])
+    {
 		ft_putchar(str[i++]);
+    }
     return (i);
 }
 
@@ -38,11 +40,13 @@ void    ft_alloc(char   *str)
     a = 0;
     pass = malloc(sizeof(char) * ft_strlen(str) + 1);
     while (str[i])
-		pass[a++] = str[i++];
-	pass[a] = '\0';
+    {
+        pass[a++] = str[i++];
+    }
+    pass[a] = '\0';
 	ft_putstr(pass);
-	printf("\n");
 	free(pass);
+
 }
 
 int main(int ac, char **av)
@@ -53,11 +57,20 @@ int main(int ac, char **av)
 
     aci = 1;
     avi = 0;
-	if (ac < 2)
-		return (-1);
+   // while (i < ac)
+   //printf("%s\n",av[2]);
    while (i < ac)
-	{
-	   ft_alloc(av[aci++]);
+   {
+   	ft_alloc(av[aci++]);
 	   i++;
 	}
+   // {
+        //while (av[avi])
+        //{
+            //printf("%s\n",av[avi]);
+            //avi++;
+        //}
+        //ac--;
+        //i++;
+    //}
 }
