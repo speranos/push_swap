@@ -40,9 +40,35 @@ void    ft_alloc(char   *str)
     while (str[i])
 		pass[a++] = str[i++];
 	pass[a] = '\0';
-	ft_putstr(pass);
+	/*Push to stack*/
+    ft_putstr(pass);
 	printf("\n");
 	free(pass);
+}
+
+int ft_checker(int ac, char **str)
+{
+    //printf("dakhla:%s",str);
+    int i;
+	int	a;
+
+    i = 1;
+	a = 0;
+	while (i < ac)
+	{
+    	while (str[i][a])
+    	{
+			// printf("str >>>> %s\n",str[i]);
+        	if (str[i][a] < 48 || str[i][a] > 57)
+				return (1);
+			//printf("str >>>> %s\n",str[i]);
+			//printf("CC >>>> %c\n",str[i][a]);
+        	a++;
+    	}
+		a = 0;
+		i++;
+	}
+	return (0);
 }
 
 int main(int ac, char **av)
@@ -55,9 +81,13 @@ int main(int ac, char **av)
     avi = 0;
 	if (ac < 2)
 		return (-1);
+	if (ft_checker(ac, av) == 1)
+		return (ft_putstr("ERROR"));
    while (i < ac)
 	{
-	   ft_alloc(av[aci++]);
+		// if (ft_checker(av[aci]) == 1)
+		// 	return (ft_putstr("ERROR"));
+		ft_alloc(av[aci++]);
 	   i++;
 	}
 }
