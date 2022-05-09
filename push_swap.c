@@ -2,6 +2,47 @@
 #include <unistd.h>
 #include <stdlib.h>
 
+
+static const char	*re(const char	*str)
+{
+	int					i;
+
+	i = 0;
+	while (str[i] == ' ' || str[i] == '\t' || str[i] == '\f' || str[i] == '\n'
+		|| str[i] == '\r' || str[i] == '\v' )
+		i++;
+	return (&str[i]);
+}
+
+int	ft_atoi(const char *str)
+{
+	int					i;
+	unsigned long int	r;
+	int					s;
+	const char			*st;
+
+	st = re(str);
+	i = 0;
+	s = 1;
+	r = 0;
+	if (st[i] == '-' || st[i] == '+')
+	{
+		if (st[i] == '-')
+			s = s * -1;
+		i++;
+	}
+	while (st[i] && st[i] >= '0' && st[i] <= '9')
+	{
+		r = r * 10 + (st[i] - 48);
+		i++;
+		if (r > 9223372036854775807 && (s == 1))
+			return (-1);
+		if (r > 9223372036854775807 && (s == -1))
+			return (0);
+	}
+	return (r * s);
+}
+
 int ft_strlen(char *str)
 {
     int i;
@@ -28,7 +69,20 @@ int    ft_putstr(char *str)
     return (i);
 }
 
-void    ft_alloc(char   *str)
+void	push(int	**stack, int nbr)
+{
+	int top;
+	// int	*stack;
+	int	i;
+	
+
+			*stack[i] = nbr;
+			printf("%d\n",*stack[i]);
+			i++;
+
+}
+
+void    ft_alloc(char   *str, int ac, int **stack)
 {
     int     i;
     int     a;
@@ -41,14 +95,13 @@ void    ft_alloc(char   *str)
 		pass[a++] = str[i++];
 	pass[a] = '\0';
 	/*Push to stack*/
-    ft_putstr(pass);
-	printf("\n");
+    //ft_putstr(pass);
+	push(stack, ft_atoi(pass));
 	free(pass);
 }
 
 int ft_checker(int ac, char **str)
 {
-    //printf("dakhla:%s",str);
     int i;
 	int	a;
 
@@ -58,11 +111,8 @@ int ft_checker(int ac, char **str)
 	{
     	while (str[i][a])
     	{
-			// printf("str >>>> %s\n",str[i]);
         	if (str[i][a] < 48 || str[i][a] > 57)
 				return (1);
-			//printf("str >>>> %s\n",str[i]);
-			//printf("CC >>>> %c\n",str[i][a]);
         	a++;
     	}
 		a = 0;
@@ -75,7 +125,9 @@ int main(int ac, char **av)
 {
     int aci;
     int avi;
+	int *stack;
     int i = 1;
+	int a = 0;
 
     aci = 1;
     avi = 0;
@@ -83,11 +135,11 @@ int main(int ac, char **av)
 		return (-1);
 	if (ft_checker(ac, av) == 1)
 		return (ft_putstr("ERROR"));
-   while (i < ac)
+	stack = malloc(sizeof(int) * ac + 1);
+	while (i < ac)
 	{
-		// if (ft_checker(av[aci]) == 1)
-		// 	return (ft_putstr("ERROR"));
-		ft_alloc(av[aci++]);
-	   i++;
+		ft_alloc(av[aci++], ac, &stack);
+		i++;
 	}
+	printf("stack === %d",stack[2]);
 }
