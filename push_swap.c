@@ -14,7 +14,7 @@ static const char	*re(const char	*str)
 	return (&str[i]);
 }
 
-int	ft_atoi(const char *str)
+int	ft_atoi(char *str)
 {
 	int					i;
 	unsigned long int	r;
@@ -40,6 +40,7 @@ int	ft_atoi(const char *str)
 		if (r > 9223372036854775807 && (s == -1))
 			return (0);
 	}
+	free(str);
 	return (r * s);
 }
 
@@ -69,20 +70,19 @@ int    ft_putstr(char *str)
     return (i);
 }
 
-void	push(int	**stack, int nbr)
+void	push(int	*stack, int nbr)
 {
 	int top;
 	// int	*stack;
-	int	i;
-	
-
-			*stack[i] = nbr;
-			printf("%d\n",*stack[i]);
-			i++;
+	//int	i;
+	static int i;
+	//i = 0;
+			stack[i++] = nbr;
+			//i++;
 
 }
 
-void    ft_alloc(char   *str, int ac, int **stack)
+int	ft_alloc(char   *str, int ac)
 {
     int     i;
     int     a;
@@ -94,10 +94,12 @@ void    ft_alloc(char   *str, int ac, int **stack)
     while (str[i])
 		pass[a++] = str[i++];
 	pass[a] = '\0';
+	return (ft_atoi(pass));
 	/*Push to stack*/
     //ft_putstr(pass);
-	push(stack, ft_atoi(pass));
-	free(pass);
+	//push(stack, ft_atoi(pass));
+	//printf("stack dyal allo ====== %d\n",*stack[2]);
+	//free(pass);
 }
 
 int ft_checker(int ac, char **str)
@@ -123,14 +125,12 @@ int ft_checker(int ac, char **str)
 
 int main(int ac, char **av)
 {
-    int aci;
-    int avi;
-	int *stack;
-    int i = 1;
-	int a = 0;
+	int	aci;
+	int	*stack;
+    int	i;
 
     aci = 1;
-    avi = 0;
+	i = 1;
 	if (ac < 2)
 		return (-1);
 	if (ft_checker(ac, av) == 1)
@@ -138,8 +138,9 @@ int main(int ac, char **av)
 	stack = malloc(sizeof(int) * ac + 1);
 	while (i < ac)
 	{
-		ft_alloc(av[aci++], ac, &stack);
+		push(stack, ft_alloc(av[aci++], ac));
 		i++;
 	}
-	printf("stack === %d",stack[2]);
+	stack[ac] = '\0';
+	printf("stack === %d",stack[0]);
 }
