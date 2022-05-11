@@ -113,6 +113,8 @@ int ft_checker(int ac, char **str)
 	{
     	while (str[i][a])
     	{
+			if (str[i][a] == '-')
+				a++;
         	if (str[i][a] < 48 || str[i][a] > 57)
 				return (1);
         	a++;
@@ -129,18 +131,18 @@ int main(int ac, char **av)
 	int	*stack;
     int	i;
 
-    aci = 1;
+    aci = ac - 1;
 	i = 1;
 	if (ac < 2)
 		return (-1);
 	if (ft_checker(ac, av) == 1)
 		return (ft_putstr("ERROR"));
-	stack = malloc(sizeof(int) * ac + 1);
+	stack = malloc(sizeof(int) * ac);
 	while (i < ac)
 	{
-		push(stack, ft_alloc(av[aci++], ac));
+		push(stack, ft_alloc(av[aci--], ac));
 		i++;
 	}
-	stack[ac] = '\0';
-	printf("stack === %d",stack[0]);
+	stack[ac - 1] = '\0';
+	printf("stack === %d\n",stack[9]);
 }
