@@ -95,11 +95,6 @@ int	ft_alloc(char   *str, int ac)
 		pass[a++] = str[i++];
 	pass[a] = '\0';
 	return (ft_atoi(pass));
-	/*Push to stack*/
-    //ft_putstr(pass);
-	//push(stack, ft_atoi(pass));
-	//printf("stack dyal allo ====== %d\n",*stack[2]);
-	//free(pass);
 }
 
 int ft_checker(int ac, char **str)
@@ -125,11 +120,25 @@ int ft_checker(int ac, char **str)
 	return (0);
 }
 
+void	ft_sizeofsort(int ac, int *stacka, int *stackb)
+{
+	if (ac == 4)
+		ft_Ssort(stacka,stackb);
+	else if (ac == 6)
+		ft_Msort(stacka, stackb);
+	else if(ac > 6 && ac <= 100)
+		ft_Lsort(stacka, stackb);
+	else if (ac > 100)
+		ft_XLsort(stacka,stackb);
+
+}
+
 int main(int ac, char **av)
 {
 	int	aci;
-	int	*stack;
+	int	*stacka;
     int	i;
+	int	*stackb;
 
     aci = ac - 1;
 	i = 1;
@@ -137,12 +146,14 @@ int main(int ac, char **av)
 		return (-1);
 	if (ft_checker(ac, av) == 1)
 		return (ft_putstr("ERROR"));
-	stack = malloc(sizeof(int) * ac);
+	stacka = malloc(sizeof(int) * ac);
+	stackb = malloc(sizeof(int) * ac);
 	while (i < ac)
 	{
-		push(stack, ft_alloc(av[aci--], ac));
+		push(stacka, ft_alloc(av[aci--], ac));
 		i++;
 	}
-	stack[ac - 1] = '\0';
-	printf("stack === %d\n",stack[9]);
+	stacka[ac - 1] = '\0';
+	ft_sizeofsort(ac, stacka, stackb);
+	printf("stack === %d\n",stacka[9]);
 }
