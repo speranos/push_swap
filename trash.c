@@ -159,6 +159,7 @@ int	*ft_Ssort(int ac, int *stack, int *stackb)
 		ft_putstr("sa\n");
 		return (stack);
 	}
+	else if(ft_sortcheck(ac - 2,ft_swap(ac - 2, stack)) == 0)
 	return (stack);
 	//if ()
 }
