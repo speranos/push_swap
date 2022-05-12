@@ -106,11 +106,11 @@ int ft_checker(int ac, char **str)
 	a = 0;
 	while (i < ac)
 	{
+		if (str[i][a] == '-')
+			a++;
     	while (str[i][a])
     	{
-			if (str[i][a] == '-')
-				a++;
-        	if (str[i][a] < 48 || str[i][a] > 57)
+			if (str[i][a] < 48 || str[i][a] > 57)
 				return (1);
         	a++;
     	}
@@ -120,18 +120,18 @@ int ft_checker(int ac, char **str)
 	return (0);
 }
 
-void	ft_sizeofsort(int ac, int *stacka, int *stackb)
-{
-	if (ac == 4)
-		ft_Ssort(stacka,stackb);
-	else if (ac == 6)
-		ft_Msort(stacka, stackb);
-	else if(ac > 6 && ac <= 100)
-		ft_Lsort(stacka, stackb);
-	else if (ac > 100)
-		ft_XLsort(stacka,stackb);
+// void	ft_sizeofsort(int ac, int *stacka, int *stackb)
+// {
+// 	if (ac == 4)
+// 		ft_Ssort(stacka,stackb);
+// 	else if (ac == 6)
+// 		ft_Msort(stacka, stackb);
+// 	else if(ac > 6 && ac <= 100)
+// 		ft_Lsort(stacka, stackb);
+// 	else if (ac > 100)
+// 		ft_XLsort(stacka,stackb);
 
-}
+// }
 
 int main(int ac, char **av)
 {
@@ -154,6 +154,6 @@ int main(int ac, char **av)
 		i++;
 	}
 	stacka[ac - 1] = '\0';
-	ft_sizeofsort(ac, stacka, stackb);
-	printf("stack === %d\n",stacka[9]);
+	//ft_sizeofsort(ac, stacka, stackb);
+	//printf("stack === %d\n",stacka[]);
 }
