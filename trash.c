@@ -204,11 +204,8 @@ int	ft_sortcheck(int ac, int *stack)
 	return(0);
 }
 
-int	*ft_Ssort(int ac, int *stack)
+int	*ft_Ssort(int i, int *stack)
 {
-	int i;
-
-	i = ac - 2;
 	if (stack[0] > stack[i] && stack[i - 1] < stack[i])
 		stack = ft_sa(i, stack);
 	else if (stack[i] > stack[0] && stack[i - 1] > stack [0] && stack[i - 1] < stack[i])
@@ -228,17 +225,29 @@ int	*ft_Ssort(int ac, int *stack)
 	return(stack);
 }
 
-int	*ft_Msort(int ac, int *stacka, int *stackb)
+int	*ft_Msort(int i, int *stacka, int *stackb)
 {
-	
+	push (stackb, stacka[i]);
+	ft_putstr("pb\n");
+	push (stackb, stacka[i - 1]);
+	ft_putstr("pb\n");
+	stacka = ft_Ssort(i,stacka);
+	push (stacka, stackb[i]);
+	ft_putstr("pa\n");
+	push (stacka, stackb[i - 1]);
+	ft_putstr("pa\n");
+	return (stacka);
 }
 
 int	*ft_sizeofsort(int ac, int *stacka, int *stackb)
 {
+	int	i;
+
+	i = ac - 2;
 	if (ac == 4)
-		return (ft_Ssort(ac, stacka));
+		return (ft_Ssort(i, stacka));
 	else if (ac == 6)
-		return (ft_Msort(stacka, stackb));
+		return (ft_Msort(i, stacka, stackb));
 	// else if(ac > 6 && ac <= 100)
 	// 	ft_Lsort(stacka, stackb);
 	// else if (ac > 100)
@@ -274,8 +283,8 @@ int main(int ac, char **av)
 		i++;
 	}
 	stacka[ac - 1] = '\0';
-//	if (ft_sortcheck(ac - 2, stacka) == 0)
-//		return (ft_free(stacka, stackb));
+	if (ft_sortcheck(ac - 2, stacka) == 0)
+		return (ft_free(stacka, stackb));
 	stacka = ft_sizeofsort(ac, stacka, stackb);
 	i = ac - 2;
 	while (ac != 1)
