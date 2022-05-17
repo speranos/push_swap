@@ -1,295 +1,122 @@
-#include  <stdio.h>
-#include <unistd.h>
-#include <stdlib.h>
+#include "puch_swap.h"
 
-
-static const char	*re(const char	*str)
+int isEmpty(t_stack* stack)
 {
-	int					i;
-
-	i = 0;
-	while (str[i] == ' ' || str[i] == '\t' || str[i] == '\f' || str[i] == '\n'
-		|| str[i] == '\r' || str[i] == '\v' )
-		i++;
-	return (&str[i]);
+    return stack->top == -1;
 }
 
-int	ft_atoi(char *str)
+int isFull(t_stack* stack)
 {
-	int					i;
-	unsigned long int	r;
-	int					s;
-	const char			*st;
-
-	st = re(str);
-	i = 0;
-	s = 1;
-	r = 0;
-	if (st[i] == '-' || st[i] == '+')
-	{
-		if (st[i] == '-')
-			s = s * -1;
-		i++;
-	}
-	while (st[i] && st[i] >= '0' && st[i] <= '9')
-	{
-		r = r * 10 + (st[i] - 48);
-		i++;
-		if (r > 9223372036854775807 && (s == 1))
-			return (-1);
-		if (r > 9223372036854775807 && (s == -1))
-			return (0);
-	}
-	free(str);
-	return (r * s);
+    return stack->top == stack->len;
 }
 
-int ft_strlen(char *str)
-{
-    int i;
 
-    i = 0;
-    while (str[i])
-        i++;
-    return (i);    
+void	push(t_stack *stack, int nbr)
+{
+	// printf("yooooo : %d\n", nbr);
+	if (isFull(stack))
+        return ;
+	stack->array[++stack->top] = nbr;
 }
 
-int	ft_putchar(char c)
+int pop(t_stack *stack)
 {
-	write (1, &c, 1);
-	return (1);
+    if (isEmpty(stack))
+        return INT_MIN;
+    return stack->array[stack->top--];
 }
 
-int    ft_putstr(char *str)
-{
-    int     i;
-    
-	i = 0;
-    while (str[i])
-		ft_putchar(str[i++]);
-    return (i);
-}
-
-void	push(int	*stack, int nbr)
-{
-	int top;
-	// int	*stack;
-	//int	i;
-	static int i;
-	//i = 0;
-			stack[i++] = nbr;
-			//i++;
-
-}
-
-int	ft_alloc(char   *str, int ac)
-{
-    int     i;
-    int     a;
-    char    *pass;
-
-    i = 0;
-    a = 0;
-    pass = malloc(sizeof(char) * ft_strlen(str) + 1);
-    while (str[i])
-		pass[a++] = str[i++];
-	pass[a] = '\0';
-	return (ft_atoi(pass));
-}
-
-int ft_checker(int ac, char **str)
-{
-    int i;
-	int	a;
-
-    i = 1;
-	a = 0;
-	while (i < ac)
-	{
-    	while (str[i][a])
-    	{
-			if (str[i][a] == '-')
-				a++;
-        	if (str[i][a] < 48 || str[i][a] > 57)
-				return (1);
-        	a++;
-    	}
-		a = 0;
-		i++;
-	}
-	return (0);
-}
-
-int	*ft_sa(int i, int *stack)
-{
-	int	tmp1;
-	int	tmp2;
-
-	tmp1 = stack[i];
-	tmp2 = stack[i - 1];
-	stack[i - 1] = tmp1;
-	stack[i] = tmp2;
-	ft_putstr("sa\n");
-return (stack);
-}
-
-int	*ft_ra(int i, int *stack)
-{
-	int	tmp1;
-	int	*tmpstack;
-	int	a;
-	int s;
-
-	a = 0;
-	s = 0;
-	tmp1 = stack[i];
-	tmpstack = malloc(sizeof(int) * (i + 1));
-	tmpstack[a] = stack[i];
-	a++;
-	i--;
-	while (i >= 0)
-	{
-		tmpstack[a++] = stack[s++];
-		i--;
-	}
-	tmpstack[a] = '\0';
-	stack = tmpstack;
-	ft_putstr("ra\n");
-	free(tmpstack);
-	return (stack);
-}
-
-int	*ft_rra(int i, int *stack)
-{
-	int	tmp1;
-	int	tmp2;
-	int	*tmpstack;
-	int	a;
-	int s;
-
-	a = 0;
-	s = 0;
-	tmp1 = stack[i];
-	tmpstack = malloc(sizeof(int) * (i + 1));
-	s = 1;
-	while (i > 0)
-	{
-		tmpstack[a++] = stack[s++];
-		i--;
-	}
-	tmpstack[a] = stack[0];
-	a++;
-	tmpstack[a] = '\0';
-	stack = tmpstack;
-	ft_putstr("rra\n");
-	free(tmpstack);
-	return (stack);
-}
-// int	*ft_rot(int i, int *stack)
+// int	ft_alloc(char   *str, int ac)
 // {
-	
+    // int     i;
+    // int     a;
+    // char    *pass;
+
+    // i = 0;
+    // a = 0;
+    // pass = malloc(sizeof(char) * ft_strlen(str) + 1);
+    // while (str[i])
+	// 	pass[a++] = str[i++];
+	// pass[a] = '\0';
+	// return (ft_atoi(pass));
 // }
-int	ft_sortcheck(int ac, int *stack)
+
+int	ft_sortcheck(int ac, t_stack *stack)
 {
 	int i;
+	int j;
 
-	i = stack[ac];
-	//printf("\ni ===== %d",i); 
-	while (stack[ac])
+	i = 0;
+	while (i < stack->len)
 	{
-		if (stack[ac] < i)
-			return (1);
-		ac--;
+		j = i + 1;
+		while (j < stack->len)
+		{
+			if (stack->array[i] < stack->array[j])
+				return (0);
+			j++;
+		}
+		i++;
 	}
-	return(0);
+	return(1);
 }
 
-int	*ft_Ssort(int i, int *stack)
+int	*ft_sizeofsort(int ac, t_stack *stacka, t_stack *stackb)
 {
-	if (stack[0] > stack[i] && stack[i - 1] < stack[i])
-		stack = ft_sa(i, stack);
-	else if (stack[i] > stack[0] && stack[i - 1] > stack [0] && stack[i - 1] < stack[i])
-	{
-		stack = ft_sa(i, stack);
-		stack = ft_rra(i, stack);
-	}
-	else if (stack[i] > stack[0] && stack[i] > stack[i - 1])
-		stack = ft_ra(i, stack);
-	else if (stack[i] < stack[0] && stack[0] < stack[i - 1])
-	{
-		stack = ft_sa(i, stack);
-		stack = ft_ra(i, stack);
-	}
-	else if (stack[0] < stack[i - 1] && stack[i]  > stack[0])
-		stack = ft_rra(i, stack);
-	return(stack);
-}
+	//int	i;
 
-int	*ft_Msort(int i, int *stacka, int *stackb)
-{
-	push (stackb, stacka[i]);
-	ft_putstr("pb\n");
-	push (stackb, stacka[i - 1]);
-	ft_putstr("pb\n");
-	stacka = ft_Ssort(i,stacka);
-	push (stacka, stackb[i]);
-	ft_putstr("pa\n");
-	push (stacka, stackb[i - 1]);
-	ft_putstr("pa\n");
-	return (stacka);
-}
-
-int	*ft_sizeofsort(int ac, int *stacka, int *stackb)
-{
-	int	i;
-
-	i = ac - 2;
-	if (ac == 4)
-		return (ft_Ssort(i, stacka));
-	else if (ac == 6)
-		return (ft_Msort(i, stacka, stackb));
+	//i = ac - 2;
+	if (ac == 4 || ac == 3)
+		return (ft_Ssort(stacka));
+	else if (ac >= 5 && ac <= 11)
+		return (ft_Msort(stacka->len, stacka, stackb));
 	// else if(ac > 6 && ac <= 100)
 	// 	ft_Lsort(stacka, stackb);
 	// else if (ac > 100)
 	// 	ft_XLsort(stacka,stackb);
-	return (stacka);
+	return (stacka->array);
 
 }
-int ft_free(int *stacka, int *stackb)
+int ft_free(t_stack *stacka, t_stack *stackb)
 {
-	free(stacka);
-	free(stackb);
+	free(stacka->array);
+	free(stackb->array);
 	return (0);
 }
 
 int main(int ac, char **av)
 {
-	int	aci;
-	int	*stacka;
+	//int	*stacka;
     int	i;
-	int	*stackb;
+	//int	*stackb;
+	t_stack	stacka;
+	t_stack	stackb;
 
-    aci = ac - 1;
-	i = 1;
 	if (ac < 2)
 		return (-1);
 	if (ft_checker(ac, av) == 1)
 		return (ft_putstr("ERROR"));
-	stacka = malloc(sizeof(int) * ac);
-	stackb = malloc(sizeof(int) * ac);
-	while (i < ac)
+	stacka.len = ac - 1;
+	stacka.top = -1;
+	stackb.top = -1;
+	stackb.len = ac - 1;
+	stacka.array = malloc(sizeof(int) * stacka.len);
+	stackb.array = malloc(sizeof(int) * stackb.len);
+	i = stacka.len;
+	while (i > 0)
 	{
-		push(stacka, ft_alloc(av[aci--], ac));
-		i++;
+		push(&stacka, ft_atoi(av[i]));
+		// push(&stacka, ft_alloc(av[i], ac));
+		i--;
 	}
-	stacka[ac - 1] = '\0';
-	if (ft_sortcheck(ac - 2, stacka) == 0)
-		return (ft_free(stacka, stackb));
-	stacka = ft_sizeofsort(ac, stacka, stackb);
-	i = ac - 2;
-	while (ac != 1)
-	{
-		printf("stack === %d\n",stacka[i--]);
-		ac--;
-	}
-}
+	if (ft_sortcheck(ac - 2, &stacka) == 1)
+		return (ft_free(&stacka, &stackb));
+	stacka.array = ft_sizeofsort(ac, &stacka, &stackb);
+//	stacka.array = trachtest(&stacka, &stackb);
+	// i = ac - 2;
+	// while (i >= 0)
+	// {
+	// 	printf("stack === %d\n", stacka.array[i]);
+	// 	i--;
+	// }
+ }

@@ -1,3 +1,4 @@
+#include "puch_swap.h"
 
 static const char	*re(const char	*str)
 {
@@ -10,7 +11,7 @@ static const char	*re(const char	*str)
 	return (&str[i]);
 }
 
-int	ft_atoi(const char *str)
+int	ft_atoi(char *str)
 {
 	int					i;
 	unsigned long int	r;
@@ -36,6 +37,7 @@ int	ft_atoi(const char *str)
 		if (r > 9223372036854775807 && (s == -1))
 			return (0);
 	}
+	// free(str);
 	return (r * s);
 }
 

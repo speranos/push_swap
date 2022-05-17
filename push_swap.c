@@ -1,7 +1,4 @@
-#include  <stdio.h>
-#include <unistd.h>
-#include <stdlib.h>
-
+#include "push_swap.h"
 
 static const char	*re(const char	*str)
 {
@@ -40,7 +37,7 @@ int	ft_atoi(char *str)
 		if (r > 9223372036854775807 && (s == -1))
 			return (0);
 	}
-	free(str);
+	// free(str);
 	return (r * s);
 }
 
