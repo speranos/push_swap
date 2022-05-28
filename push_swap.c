@@ -1,275 +1,129 @@
 #include "push_swap.h"
 
-static const char	*re(const char	*str)
-{
-	int					i;
-
-	i = 0;
-	while (str[i] == ' ' || str[i] == '\t' || str[i] == '\f' || str[i] == '\n'
-		|| str[i] == '\r' || str[i] == '\v' )
-		i++;
-	return (&str[i]);
-}
-
-int	ft_atoi(char *str)
-{
-	int					i;
-	unsigned long int	r;
-	int					s;
-	const char			*st;
-
-	st = re(str);
-	i = 0;
-	s = 1;
-	r = 0;
-	if (st[i] == '-' || st[i] == '+')
-	{
-		if (st[i] == '-')
-			s = s * -1;
-		i++;
-	}
-	while (st[i] && st[i] >= '0' && st[i] <= '9')
-	{
-		r = r * 10 + (st[i] - 48);
-		i++;
-		if (r > 9223372036854775807 && (s == 1))
-			return (-1);
-		if (r > 9223372036854775807 && (s == -1))
-			return (0);
-	}
-	// free(str);
-	return (r * s);
-}
-
-int ft_strlen(char *str)
-{
-    int i;
-
-    i = 0;
-    while (str[i])
-        i++;
-    return (i);    
-}
-
-int	ft_putchar(char c)
-{
-	write (1, &c, 1);
-	return (1);
-}
-
-int    ft_putstr(char *str)
-{
-    int     i;
-    
-	i = 0;
-    while (str[i])
-		ft_putchar(str[i++]);
-    return (i);
-}
-
-void	push(int	*stack, int nbr)
-{
-	int top;
-	// int	*stack;
-	//int	i;
-	static int i;
-	//i = 0;
-			stack[i++] = nbr;
-			//i++;
-
-}
-
-int	ft_alloc(char   *str, int ac)
-{
-    int     i;
-    int     a;
-    char    *pass;
-
-    i = 0;
-    a = 0;
-    pass = malloc(sizeof(char) * ft_strlen(str) + 1);
-    while (str[i])
-		pass[a++] = str[i++];
-	pass[a] = '\0';
-	return (ft_atoi(pass));
-}
-
 int ft_checker(int ac, char **str)
 {
-    int i;
+	int i;
 	int	a;
 
-    i = 1;
+	i = 1;
 	a = 0;
 	while (i < ac)
 	{
-		if (str[i][a] == '-')
-			a++;
-    	while (str[i][a])
-    	{
+		while (str[i][a])
+		{
+			if (str[i][a] == '-' || str[i][a] == '+')
+				a++;
 			if (str[i][a] < 48 || str[i][a] > 57)
 				return (1);
-        	a++;
-    	}
+			a++;
+		}
 		a = 0;
 		i++;
 	}
 	return (0);
 }
 
-int	ft_sortcheck(int ac, int *stack)
+int	ft_duplicate(int ac, char **str)
 {
-	int i;
-
-	i = stack[ac];
-	//printf("\ni ===== %d",i); 
-	while (stack[ac])
-	{
-		if (stack[ac] < i)
-			return (1);
-		ac--;
-	}
-	return(0);
-}
-
-int	*ft_rra(int i, int *stack)
-{
-	int	tmp1;
-	int	tmp2;
-	int	*tmpstack;
 	int	a;
-	int s;
+	int	i;
+	int	tmp;
+	int	r;
 
-	a = 0;
-	s = 0;
-	tmp1 = stack[i];
-	tmpstack = malloc(sizeof(int) * (i + 1));
-	s = 1;
+	a = ac - 1;
+	i = a;
+	r = 0;
 	while (i > 0)
 	{
-		tmpstack[a++] = stack[s++];
+		tmp = ft_atoi(str[i]);
+		while (a > 0)
+		{
+			if (tmp == ft_atoi(str[a]))
+				r++;
+			a--;
+		}
+		if (r > 1)
+			return (1);
+		a = ac - 1;
+		r = 0;
 		i--;
+		
 	}
-	tmpstack[a] = stack[0];
-	a++;
-	tmpstack[a] = '\0';
-	stack = tmpstack;
-	ft_putstr("rra\n");
-	free(tmpstack);
-	return (stack);
+	return (0);
 }
 
-int	*ft_sa(int i, int *stack)
+void	ft_mainalloc(int ac, t_stack *stacka, t_stack *stackb)
 {
-	int	tmp1;
-	int	tmp2;
-
-	tmp1 = stack[i];
-	tmp2 = stack[i - 1];
-	stack[i - 1] = tmp1;
-	stack[i] = tmp2;
-	ft_putstr("sa\n");
-return (stack);
+	stacka->len = ac - 1;
+	stacka->top = -1;
+	stackb->top = -1;
+	stackb->len = ac - 1;
+	stacka->last = 0;
+	stacka->array = malloc(sizeof(int) * stacka->len);
+	stackb->array = malloc(sizeof(int) * stackb->len);
 }
 
-int	*ft_ra(int i, int *stack)
-{
-	int	tmp1;
-	int	*tmpstack;
-	int	a;
-	int s;
-
-	a = 0;
-	s = 0;
-	tmp1 = stack[i];
-	tmpstack = malloc(sizeof(int) * (i + 1));
-	tmpstack[a] = stack[i];
-	a++;
-	i--;
-	while (i >= 0)
-	{
-		tmpstack[a++] = stack[s++];
-		i--;
-	}
-	tmpstack[a] = '\0';
-	stack = tmpstack;
-	ft_putstr("ra\n");
-	free(tmpstack);
-	return (stack);
-}
-
-int	*ft_Ssort(int ac, int *stack)
+int	ft_sortcheck(t_stack *stack)
 {
 	int i;
+	int j;
 
-	i = ac - 2;
-	if (stack[0] > stack[i] && stack[i - 1] < stack[i])
-		stack = ft_sa(i, stack);
-	else if (stack[i] > stack[0] && stack[i - 1] > stack [0] && stack[i - 1] < stack[i])
+	i = 0;
+	while (i < stack->len)
 	{
-		stack = ft_sa(i, stack);
-		stack = ft_rra(i, stack);
+		j = i + 1;
+		while (j < stack->len)
+		{
+			if (stack->array[i] < stack->array[j])
+				return (0);
+			j++;
+		}
+		i++;
 	}
-	else if (stack[i] > stack[0] && stack[i] > stack[i - 1])
-		stack = ft_ra(i, stack);
-	else if (stack[i] < stack[0] && stack[0] < stack[i - 1])
-	{
-		stack = ft_sa(i, stack);
-		stack = ft_ra(i, stack);
-	}
-	else if (stack[0] < stack[i - 1] && stack[i]  > stack[0])
-		stack = ft_rra(i, stack);
-	return(stack);
+	return(1);
 }
 
-void	ft_sizeofsort(int ac, int *stacka, int *stackb)
+void	ft_sizeofsort(int ac, t_stack *stacka, t_stack *stackb)
 {
-	if (ac == 4)
-		ft_Ssort(ac, stacka);
-	else if (ac == 6)
-		ft_Msort(stacka, stackb);
-	else if(ac > 6 && ac <= 100)
-		ft_Lsort(stacka, stackb);
-	else if (ac > 100)
-		ft_XLsort(stacka,stackb);
-
+	if (ac == 4 || ac == 3)
+		ft_smallsort(stacka);
+	else if (ac >= 5 && ac <= 11)
+		ft_medieumsort(stacka->len, stacka, stackb);
+	else if(ac > 11)
+		ft_largesort(stacka, stackb);
 }
 
-int ft_free(int *stacka, int *stackb)
+int ft_free(t_stack *stacka, t_stack *stackb)
 {
-	free(stacka);
-	free(stackb);
+	free(stacka->array);
+	free(stackb->array);
 	return (0);
 }
 
 int main(int ac, char **av)
 {
-	int	aci;
-	int	*stacka;
     int	i;
-	int	*stackb;
+	t_stack	stacka;
+	t_stack	stackb;
 
-    aci = ac - 1;
-	i = 1;
 	if (ac < 2)
 		return (-1);
 	if (ft_checker(ac, av) == 1)
-		return (ft_putstr("ERROR"));
-	stacka = malloc(sizeof(int) * ac);
-	stackb = malloc(sizeof(int) * ac);
-	while (i < ac)
-	{
-		push(stacka, ft_alloc(av[aci--], ac));
-		i++;
-	}
-	stacka[ac - 1] = '\0';
-	if (ft_sortcheck(ac - 2, stacka) == 0)
-		return (ft_free(stacka, stackb));
-	stacka = ft_sizeofsort(ac, stacka, stackb);
+		return (ft_putstr("ERROR, NUMBER ONLY!!!"));
+	if (ft_duplicate(ac, av) != 0)
+		return (ft_putstr("DUPLICATION ERROR!!!"));
+	ft_mainalloc(ac, &stacka, &stackb);
+	i = stacka.len;
+	while (i > 0)
+		push(&stacka, ft_atoi(av[i--]));
+	if (ft_sortcheck(&stacka) == 1)
+		return (ft_free(&stacka, &stackb));
+	ft_sizeofsort(ac, &stacka, &stackb);
 	i = ac - 2;
-	while (ac != 1)
+	while (i >= 0)
 	{
-		printf("stack === %d\n",stacka[i--]);
-		ac--;
+		printf("stack === %d\n", stacka.array[i]);
+		i--;
 	}
+	return (ft_free(&stacka, &stackb));
 }

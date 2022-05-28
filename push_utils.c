@@ -1,6 +1,6 @@
-#include "puch_swap.h"
+#include "push_swap.h"
 
-static const char	*re(const char	*str)
+char	*re(char	*str)
 {
 	int					i;
 
@@ -37,18 +37,7 @@ int	ft_atoi(char *str)
 		if (r > 9223372036854775807 && (s == -1))
 			return (0);
 	}
-	// free(str);
 	return (r * s);
-}
-
-int ft_strlen(char *str)
-{
-    int i;
-
-    i = 0;
-    while (str[i])
-        i++;
-    return (i);    
 }
 
 int	ft_putchar(char c)
@@ -57,7 +46,7 @@ int	ft_putchar(char c)
 	return (1);
 }
 
-int    ft_putstr(char *str)
+int	ft_putstr(char *str)
 {
     int     i;
     
