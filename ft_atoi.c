@@ -6,7 +6,7 @@
 /*   By: aoueldma <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 00:50:32 by aoueldma          #+#    #+#             */
-/*   Updated: 2022/06/01 00:51:48 by aoueldma         ###   ########.fr       */
+/*   Updated: 2022/06/06 23:38:28 by aoueldma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "push_swap.h"
@@ -24,10 +24,10 @@ char	*re(char *str)
 
 int	ft_atoi(char *str)
 {
-	int					i;
-	unsigned long int	r;
-	int					s;
-	const char			*st;
+	int			i;
+	long		r;
+	int			s;
+	const char	*st;
 
 	st = re(str);
 	i = 0;
@@ -43,11 +43,9 @@ int	ft_atoi(char *str)
 	{
 		r = r * 10 + (st[i] - 48);
 		i++;
-		if (r > 9223372036854775807 && (s == 1))
-			return (-1);
-		if (r > 9223372036854775807 && (s == -1))
-			return (0);
 	}
+	if ((r * s) > 2147483647 || (r * s) < -2147483648)
+		exit(1);
 	return (r * s);
 }
 

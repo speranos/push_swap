@@ -1,7 +1,7 @@
 NAME = push_swap
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror
-SRCS = ft_atoi.c push_moves.c push_smallsort.c push_largesort.c push_medieumsort.c push_mysort.c push_swap.c push_utils.c
+SRCS = ft_atoi.c push_moves.c push_smallsort.c push_largesort.c push_medieumsort.c push_mysort.c push_swap.c push_utils.c ft_radix.c
 
 all : $(NAME)
 

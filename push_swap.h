@@ -38,5 +38,5 @@ void	ft_myra(t_stack *stack);
 void	ft_mysort(t_stack *stacka, t_stack *stackb);
 int		ft_checker(int ac, char **str);
 int		ft_duplicate(int ac, char **str);
-void	ft_swap(t_stack *stack, int y);
+void	ft_radixsort(t_stack *stacka, t_stack *stackb, t_stack *stack);
 #endif

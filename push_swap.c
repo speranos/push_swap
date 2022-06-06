@@ -68,9 +68,9 @@ int	main(int ac, char **av)
 	if (ac < 2)
 		return (-1);
 	if (ft_checker(ac, av) == 1)
-		return (ft_putstr("ERROR, NUMBER ONLY!!!"));
+		return (ft_putstr("ERROR...NUMBER ONLY!!!"));
 	if (ft_duplicate(ac, av) != 0)
-		return (ft_putstr("DUPLICATION ERROR!!!"));
+		return (ft_putstr("ERROR!!!"));
 	ft_mainalloc(ac, &stacka, &stackb);
 	i = stacka.len;
 	while (i > 0)

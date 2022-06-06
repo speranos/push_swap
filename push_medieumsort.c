@@ -44,6 +44,6 @@ void	ft_medieumsort(t_stack *stacka, t_stack *stackb)
 		stackb->len++;
 	}
 	ft_smallsort(stacka);
-	while (stackb->top > 0)
+	while (stackb->top >= 0)
 		push (stacka, pop(stackb), 'a');
 }
