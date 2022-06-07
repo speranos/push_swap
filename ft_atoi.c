@@ -22,6 +22,21 @@ char	*re(char *str)
 	return (&str[i]);
 }
 
+int	ft_max_check(long num, int s)
+{
+	if ((num * s) > 2147483647)
+	{
+		ft_putstr("ERROR...YOU' VE REACHED THE MAX_INT!!!\n");
+		return (1);
+	}
+	if ((num * s) < -2147483648)
+	{
+		ft_putstr("ERROR...YOU' VE REACHED THE MIN_INT!!!\n");
+		return (1);
+	}
+	return (0);
+}
+
 int	ft_atoi(char *str)
 {
 	int			i;
@@ -44,7 +59,7 @@ int	ft_atoi(char *str)
 		r = r * 10 + (st[i] - 48);
 		i++;
 	}
-	if ((r * s) > 2147483647 || (r * s) < -2147483648)
+	if (ft_max_check(r, s) == 1)
 		exit(1);
 	return (r * s);
 }

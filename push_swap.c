@@ -70,7 +70,7 @@ int	main(int ac, char **av)
 	if (ft_checker(ac, av) == 1)
 		return (ft_putstr("ERROR...NUMBER ONLY!!!"));
 	if (ft_duplicate(ac, av) != 0)
-		return (ft_putstr("ERROR!!!"));
+		return (ft_putstr("ERROR...DUPLICATION!!!"));
 	ft_mainalloc(ac, &stacka, &stackb);
 	i = stacka.len;
 	while (i > 0)
