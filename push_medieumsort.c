@@ -37,6 +37,8 @@ void	ft_medieumsort(t_stack *stacka, t_stack *stackb)
 	while (stacka->top > 2)
 	{
 		tmp = ft_min(stacka);
+		if (tmp == stacka->array[0])
+			ft_rra(stacka);
 		while (stacka->array[stacka->top] != tmp)
 			ft_ra(stacka);
 		push (stackb, pop(stacka), 'b');
