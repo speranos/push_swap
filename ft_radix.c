@@ -37,7 +37,7 @@ int	ft_max_bit(t_stack *stacka)
 	int	max_bit;
 
 	max_bit = 0;
-	max_num = stacka->array[0];
+	max_num = stacka->top + 1;
 	while ((max_num >> max_bit) != 0)
 		max_bit++;
 	return (max_bit);
@@ -60,13 +60,13 @@ void	ft_bitshift(t_stack *stacka, t_stack *stackb, int n)
 	}
 }
 
-void	ft_radixsort(t_stack *stacka, t_stack *stackb, t_stack *stack)
+void	ft_radixsort(t_stack *stacka, t_stack *stackb)
 {
 	int	n;
 	int	maxbit;
 
 	n = 0;
-	maxbit = ft_max_bit(stack);
+	maxbit = ft_max_bit(stacka);
 	while (maxbit > 0)
 	{
 		ft_bitshift(stacka, stackb, n);
